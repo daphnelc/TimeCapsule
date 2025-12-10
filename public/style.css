@@ -29,10 +29,6 @@ h1 {
   margin: 0;
 }
 
-p{
-
-  
-}
 
 .header {
   width: 100%;
@@ -43,11 +39,14 @@ p{
 
 .new-capsule-button {
   padding: 8px 16px;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
   border-radius: 999px;
   border: 1px solid #333;
   background: rgba(255, 255, 255, 0.5);
   font-family: 'MyFont';
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -86,5 +85,17 @@ p{
   font-size: 1rem;
 }
 
-.tilt { }
+.tilt {}
 
+.note-footer {
+  position: fixed;
+  bottom: 30px;
+  left: 50px;
+  text-align: left;
+  max-width: 700px;
+  font-family: 'MyFont';
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #4a3b2c;
+  opacity: 0.8;
+}

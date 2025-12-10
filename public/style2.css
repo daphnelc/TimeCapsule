@@ -29,55 +29,56 @@ body {
 }
 
 /* area on top of the paper where everything sits */
+
 .note-content {
   position: absolute;
-  top: 10%;
+  top: 12%;          /* space from top of paper */
   left: 12%;
   right: 12%;
   bottom: 12%;
 
   display: flex;
-  flex-direction: column;      /* stack year, label, textarea, button */
-  justify-content: center;     /* vertical center inside paper */
-  align-items: center;         /* horizontal center */
+  flex-direction: column;
+  justify-content: flex-start;  /* ⬅️ start at top, not center */
+  align-items: center;
+  gap: 12px;                    /* space between lines/blocks */
+
   font-family: 'MyFont', system-ui, sans-serif;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.5;
   color: #4a3b2c;
 }
 
-.note-select {
-  margin-top: 4px;
-  margin-bottom: 8px;
-  width: auto;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid #4a3b2c;
-  background: rgba(255, 255, 255, 0.6);
-  font-family: inherit;
-  font-size: 0.85rem;
-}
-
-
-/* date + label */
-.note-date{
-  margin: 0 0 6px 0;
+/* shared width for everything printed on the paper */
+.note-date,
+.note-label,
+.note-readonly,
+.note-textarea {
+  width: 80%;
+  max-width: 32rem;      /* controls how wide the line can get */
   text-align: center;
 }
 
-/* textarea — centered, not full page */
+
+/* main note text: left-aligned for readability */
+.note-readonly {
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+/* textarea version when writing */
 .note-textarea {
-  width: 80%;              /* narrower than the paper */
-  max-width: 26rem;
-  min-height: 10rem;
   border: none;
   background: transparent;
   resize: none;
   outline: none;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.6;
+  text-align: center;
 }
+
+
 
 /* button under the text, also centered */
 .note-button {
@@ -88,7 +89,7 @@ body {
   border: 1px solid #4a3b2c;
   background: transparent;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -97,9 +98,24 @@ body {
     background: rgba(74, 59, 44, 0.08);
 }
 
-/* read-only text version */
-.note-readonly {
-    margin: 0;
-    white-space: normal;
-    text-align:center;
+
+.note-back-button {
+  position: fixed;      
+  top: 50px;
+  left: 50px;
+  z-index: 100;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #333;
+  background: rgba(255, 255, 255, 0.5);
+  font-family: 'MyFont';
+  font-size: 1rem;
+  cursor: pointer;
 }
+
+
+
+.note-back-button:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
