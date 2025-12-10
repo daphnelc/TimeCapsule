@@ -1,104 +1,70 @@
+
+
 body {
-  background-color: #f1d76f;
+  background-image: url('links/background.jpg');
+  min-height: 100vh;
   margin: 0;
-  padding: 20px;
-}
-
-@font-face {
-  font-family: 'MyFont';
-  src: url('links/PinkyFunky.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'MyFont';
-  src: url('links/PinkyFunkyBold.otf') format('opentype');
-  font-weight: bold;
-  font-style: normal;
-}
-
-h1 {
-  font-family: 'MyFont';
-  font-size: 8rem;
-  font-weight: normal;
-  text-align: center;
-  color: #ffffff;
-  margin-bottom: 40px;
-  line-height: 0.8;
-}
-
-/* Input container styling */
-.container {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
+  padding: 40px 60px;          /* space from top/left */
   display: flex;
-  justify-content: center;
+  flex-direction: column;      /* stack title above capsules */
+  align-items: flex-start;     /* left align */
+  justify-content: flex-start; /* top align */
+}
+
+@font-face {
+  font-family: 'MyFont';            /* regular */
+  src: url('links/TTNormsProMono-Rg.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyFontThin';        /* thin */
+  src: url('links/TTNormsProMono-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+h1{
+  font-family: 'MyFontThin';  /* thin */
+  font-size: 5rem;
+}
+
+.title{
   align-items: center;
-  gap: 15px;
-  padding: 20px;
+  justify-items: center;
 }
 
-.container input {
-  padding: 12px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  background-color: white;
-}
-
-.container input::placeholder {
-  color: #c2c2c2;
-}
-
-button {
-  padding: 12px 30px;
-  color: #ff8c00;
-  background-color: transparent;
-  border: none;
-  font-family: 'MyFont';
-  font-size: 2rem;
-}
-
-button:hover {
-  font-family: 'MyFont';
-  font-weight: bold;
-}
-
-
-/* Gallery grid layout for breakfast entries */
-.index {
+/* grid of capsules */
+.capsule-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Individual breakfast item box */
-.breakfast-item {
-  background-color: #ffffffe0;
-  color: #f47a22;
-  padding: 30px;
-  border-radius: 10px;
-  min-height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  grid-row-gap: 150px;
+  grid-column-gap: 80px;
   align-items: center;
+  justify-items: center;
+  padding: 70px 70px;
+}
+
+/* each capsule + year */
+.capsule-item {
+  text-decoration: none;
+  color: #333;
   text-align: center;
+  font-family: 'MyFont';
 }
 
-.breakfast-item .breakfast {
-  font-size: 1.2rem;
-  font-weight: normal;
+.capsule-img {
+  max-width: 400px;
+  height: auto;
+  display: block;
+  transition: transform 0.18s ease-out;
 }
 
-.breakfast-item .date {
-  font-size: 0.8rem;
-  margin-bottom: 10px;
+.capsule-year {
+  margin-top: 12px;
+  font-size: 1.1rem;
 }
+
+.tilt { }
 

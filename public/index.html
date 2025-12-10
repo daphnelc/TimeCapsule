@@ -4,24 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Breakfast Index</title>
+  <title>Time Capsule</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>BREAKFAST <br> INDEX</h1>
+  <div class="title">
+  <h1>
+    My Time Capsule
+  </h1>
+</div>
+  <div class="capsule-grid">
 
-  <!-- breakfast feed container -->
-  <section class="index" id="feed">
 
-  </section>
+    <a href="/note/2024" class="capsule-item">
+      <img class="capsule-img tilt" src="links/capsule-close1.png" data-closed="links/capsule-close1.png"
+        data-open="links/capsule-open1.png" alt="Time capsule 2024" />
+      <div class="capsule-year">2024</div>
+    </a>
 
-    <!-- input container -->
-  <section class="container">
-    <input type="datetime" id="date-input" placeholder="date">
-    <input type="text" id="breakfast-input" placeholder="breakfast">
-    <button id="breakfast-submit"> submit </button>
-  </section>
+    <a href="/note/2025" class="capsule-item">
+      <img class="capsule-img tilt" src="links/capsule-close2.png" data-closed="links/capsule-close2.png"
+        data-open="links/capsule-open2.png" alt="Time capsule 2025" />
+      <div class="capsule-year">2025</div>
+    </a>
+  </div>
 
   <script src="app.js"></script>
 </body>

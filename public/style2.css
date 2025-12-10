@@ -1,0 +1,97 @@
+/* -------- time capsule note page -------- */
+
+body {
+    margin: 0;
+    background-image: url('links/background2.jpg');
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'MyFont', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('links/TTNormsProMono-Rg.ttf') format('truetype');
+}
+
+.note-wrapper {
+    position: relative;
+    width: min(70vw, 640px);
+    /* keep paper shape roughly correct */
+    aspect-ratio: 3 / 4;
+}
+
+.note-paper {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* area on top of the paper where everything sits */
+.note-content {
+  position: absolute;
+  top: 10%;
+  left: 12%;
+  right: 12%;
+  bottom: 12%;
+
+  display: flex;
+  flex-direction: column;      /* stack year, label, textarea, button */
+  justify-content: center;     /* vertical center inside paper */
+  align-items: center;         /* horizontal center */
+  font-family: 'MyFont', system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #4a3b2c;
+}
+
+/* year + label */
+.note-date{
+  margin: 0 0 6px 0;
+  text-align: center;
+}
+
+.note-label {
+  margin: 0 0 6px 0;
+  text-align: center;
+  text-decoration: underline;
+}
+
+/* textarea — centered, not full page */
+.note-textarea {
+  width: 80%;              /* narrower than the paper */
+  max-width: 26rem;
+  min-height: 10rem;
+  border: none;
+  background: transparent;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* button under the text, also centered */
+.note-button {
+  margin-top: 12px;
+  align-self: center;
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1px solid #4a3b2c;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+
+.note-button:hover {
+    background: rgba(74, 59, 44, 0.08);
+}
+
+/* read-only text version */
+.note-readonly {
+    margin: 0;
+    white-space: normal;
+}
