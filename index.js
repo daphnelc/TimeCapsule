@@ -41,58 +41,97 @@ app.get('/mydata', (req, res) => {
   res.sendFile('mydata.html', { root: 'public' });
 });
 
-// note page per year
-app.get('/note/:year', (req, res) => {
+// note page
+app.get('/note/:id', (req, res) => {
   res.sendFile('note.html', { root: 'public' });
 });
 
-/* ---------- Notes API: one note per year ---------- */
 
-// GET note for a year
-app.get('/api/note/:year', (req, res) => {
-  let year = req.params.year;
+/* ---------- mydata API (your old list) ---------- */
+
+app.post('/api/new-mydata', (req, res) => {
+  const mydata = req.body;
+
+  if (!mydata.date) {
+    const today = new Date();
+    mydata.date = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+  }
+
+  db.read()
+    .then(() => {
+      db.data.data.push(mydata);
+      return db.write();
+    })
+    .then(() => {
+      res.json(mydata);
+    });
+});
+
+app.get('/api/mydata', (req, res) => {
+  db.read().then(() => {
+    res.json(db.data);
+  });
+});
+
+/* ---------- Notes API: single note per capsule ---------- */
+
+// GET note for a capsule
+app.get('/api/note/:id', (req, res) => {
+  const id = req.params.id;
 
   notesDb.read()
     .then(() => {
-      let years = notesDb.data.years || {};
-      let note = years[year];
+      const years = notesDb.data.years || {};
+      const note = years[id];
 
       if (!note) {
         // no note yet → not locked
-        return res.json({ year, text: "", locked: false });
+        return res.json({
+          id,
+          text: '',
+          locked: false,
+          openAt: null,
+          createdAt: null,
+          durationYears: null
+        });
       }
 
       let locked = false;
       if (note.openAt) {
         const now = new Date();
-        const openAt = new Date(note.openAt);
-        locked = now < openAt;
+        locked = now < new Date(note.openAt);
       }
 
       if (locked) {
-        // don’t reveal text while sealed
         return res.json({
-          year: note.year,
-          text: "",
+          id: note.id || id,
+          text: '',
           locked: true,
-          openAt: note.openAt
+          openAt: note.openAt || null,
+          createdAt: note.createdAt || null,
+          durationYears: note.durationYears || null
         });
       } else {
         return res.json({
-          year: note.year,
-          text: note.text,
+          id: note.id || id,
+          text: note.text || '',
           locked: false,
-          openAt: note.openAt || null
+          openAt: note.openAt || null,
+          createdAt: note.createdAt || null,
+          durationYears: note.durationYears || null
         });
       }
     })
+    .catch(err => {
+      console.error('Error reading note:', err);
+      res.status(500).json({ error: 'Error reading note' });
+    });
 });
 
-
-// POST note for a year 
-app.post('/api/note/:year', (req, res) => {
-  let year = req.params.year;
-  let { text } = req.body;
+// POST note for a capsule (create/update)
+app.post('/api/note/:id', (req, res) => {
+  const id = req.params.id;
+  const { text, durationYears } = req.body;
 
   notesDb.read()
     .then(() => {
@@ -100,28 +139,70 @@ app.post('/api/note/:year', (req, res) => {
         notesDb.data.years = {};
       }
 
-      let now = new Date();
-      let openAt = new Date(now);
-      openAt.setFullYear(openAt.getFullYear() + 1);   // opens in 1 year
+      const now = new Date();
+      const openAt = new Date(now);
 
-      notesDb.data.years[year] = {
-        year,
-        text: text || "",
+      let yrs = parseInt(durationYears, 10);
+      if (isNaN(yrs)) yrs = 1;
+      if (yrs < 1) yrs = 1;
+      if (yrs > 10) yrs = 10;
+
+      openAt.setFullYear(openAt.getFullYear() + yrs);
+
+      notesDb.data.years[id] = {
+        id,
+        text: text || '',
         createdAt: now.toISOString(),
-        openAt: openAt.toISOString()
+        openAt: openAt.toISOString(),
+        durationYears: yrs
       };
 
       return notesDb.write();
     })
     .then(() => {
-      const note = notesDb.data.years[year];
-      // don’t send text back when just sealed
+      const note = notesDb.data.years[id];
       res.json({
-        year: note.year,
+        id: note.id,
         locked: true,
-        openAt: note.openAt
+        openAt: note.openAt,
+        createdAt: note.createdAt,
+        durationYears: note.durationYears
       });
-    })
-});
+    });
+  });
+  /* ---------- list all capsules for main page ---------- */
 
+  app.get('/api/capsules', (req, res) => {
+    notesDb.read()
+      .then(() => {
+        const years = notesDb.data.years || {};
+        const now = new Date();
+
+        const capsules = Object.entries(years).map(([id, note]) => {
+          let locked = false;
+          if (note.openAt) {
+            locked = now < new Date(note.openAt);
+          }
+
+          let label = id;
+          if (note.openAt) {
+            label = String(new Date(note.openAt).getFullYear());
+          }
+
+          return {
+            id,
+            label,
+            locked,
+            openAt: note.openAt || null,
+            durationYears: note.durationYears || null
+          };
+        });
+
+        res.json({ capsules });
+      })
+      .catch(err => {
+        console.error('Error reading capsules:', err);
+        res.status(500).json({ error: 'Error reading capsules' });
+      });
+  });
 

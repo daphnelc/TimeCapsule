@@ -46,16 +46,23 @@ body {
   color: #4a3b2c;
 }
 
-/* year + label */
+.note-select {
+  margin-top: 4px;
+  margin-bottom: 8px;
+  width: auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #4a3b2c;
+  background: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+
+
+/* date + label */
 .note-date{
   margin: 0 0 6px 0;
   text-align: center;
-}
-
-.note-label {
-  margin: 0 0 6px 0;
-  text-align: center;
-  text-decoration: underline;
 }
 
 /* textarea — centered, not full page */
@@ -94,4 +101,5 @@ body {
 .note-readonly {
     margin: 0;
     white-space: normal;
+    text-align:center;
 }

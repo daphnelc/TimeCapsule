@@ -9,28 +9,17 @@
 </head>
 
 <body>
-  <div class="title">
-  <h1>
-    My Time Capsule
-  </h1>
-</div>
-  <div class="capsule-grid">
-
-
-    <a href="/note/2024" class="capsule-item">
-      <img class="capsule-img tilt" src="links/capsule-close1.png" data-closed="links/capsule-close1.png"
-        data-open="links/capsule-open1.png" alt="Time capsule 2024" />
-      <div class="capsule-year">2024</div>
-    </a>
-
-    <a href="/note/2025" class="capsule-item">
-      <img class="capsule-img tilt" src="links/capsule-close2.png" data-closed="links/capsule-close2.png"
-        data-open="links/capsule-open2.png" alt="Time capsule 2025" />
-      <div class="capsule-year">2025</div>
-    </a>
+  <div class="header">
+    <h1>My Time Capsule</h1>
+    <button id="new-capsule-button" class="new-capsule-button">
+      + Add a new capsule
+    </button>
   </div>
+
+  <div class="capsule-grid" id="capsule-grid"></div>
 
   <script src="app.js"></script>
 </body>
+
 
 </html>
