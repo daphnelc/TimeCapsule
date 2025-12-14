@@ -13,12 +13,14 @@ window.addEventListener("load", function () {
       const closedImgs = [
         'links/capsule-close1.png',
         'links/capsule-close2.png',
-        'links/capsule-close3.png'
+        'links/capsule-close3.png',
+        'links/capsule-close4.png'
       ];
       const openImgs = [
         'links/capsule-open1.png',
         'links/capsule-open2.png',
-        'links/capsule-open3.png'
+        'links/capsule-open3.png',
+        'links/capsule-open4.png'
       ];
 
 
@@ -47,12 +49,15 @@ window.addEventListener("load", function () {
     .catch(console.error);
 
 
-  // 2. Add new capsule button: create a fresh id and go to its note page
+  // 2. Add new capsule button
   newButton.addEventListener('click', () => {
     const id = Date.now().toString();  // simple unique id
     window.location.href = `/note/${id}`;
   });
 });
+
+
+//functions
 
 function formatDate(dateStr) {
   if (!dateStr) return '';

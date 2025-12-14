@@ -9,11 +9,6 @@ import { JSONFile } from 'lowdb/node'
 
 let app = express();
 
-// mydata db
-const defaultData = { data: [] };
-const adapter = new JSONFile('mydata.json');
-const db = new Low(adapter, defaultData);
-
 // notes db
 const notesDefault = { years: {} };
 const notesAdapter = new JSONFile('notes.json');
@@ -47,33 +42,7 @@ app.get('/note/:id', (req, res) => {
 });
 
 
-/* ---------- mydata API (your old list) ---------- */
-
-app.post('/api/new-mydata', (req, res) => {
-  const mydata = req.body;
-
-  if (!mydata.date) {
-    const today = new Date();
-    mydata.date = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
-  }
-
-  db.read()
-    .then(() => {
-      db.data.data.push(mydata);
-      return db.write();
-    })
-    .then(() => {
-      res.json(mydata);
-    });
-});
-
-app.get('/api/mydata', (req, res) => {
-  db.read().then(() => {
-    res.json(db.data);
-  });
-});
-
-/* ---------- Notes API: single note per capsule ---------- */
+/* ---------- Note paper API ---------- */
 
 // GET note for a capsule
 app.get('/api/note/:id', (req, res) => {
@@ -122,10 +91,6 @@ app.get('/api/note/:id', (req, res) => {
         });
       }
     })
-    .catch(err => {
-      console.error('Error reading note:', err);
-      res.status(500).json({ error: 'Error reading note' });
-    });
 });
 
 // POST note for a capsule (create/update)
