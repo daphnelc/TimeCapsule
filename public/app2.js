@@ -1,27 +1,23 @@
-let pathParts = window.location.pathname.split('/');
-let capsuleId = pathParts[pathParts.length - 1] || "";
-let content = document.getElementById('note-content');
+const pathParts = window.location.pathname.split('/');
+const capsuleId = pathParts[pathParts.length - 1] || '';
+const content = document.getElementById('note-content');
 
+//function to formate the data
 function formatDate(dateStr) {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  return d.toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString();
 }
 
-// Load note state
+// Load note state for this capsule
 fetch(`/api/note/${capsuleId}`)
   .then(res => res.json())
   .then(data => {
-    let text      = data.text || "";
-    let locked    = !!data.locked;
-    let openAt    = data.openAt;
-    let createdAt = data.createdAt;
+    const text = data.text || '';
+    const locked = !!data.locked;
+    const openAt = data.openAt;
+    const createdAt = data.createdAt;
 
-    // 1. No note yet -> show editor + duration select
+    // 1. No note yet → show editor + duration select
     if (!text && !locked) {
       content.innerHTML = `
         <div class="note-date">New capsule</div>
@@ -47,24 +43,24 @@ fetch(`/api/note/${capsuleId}`)
         <button id="save-note" class="note-button">Seal this capsule</button>
       `;
 
-      let saveBtn        = document.getElementById('save-note');
-      let noteInput      = document.getElementById('note-input');
-      let durationSelect = document.getElementById('duration-select');
+      const saveBtn = document.getElementById('save-note');
+      const noteInput = document.getElementById('note-input');
+      const durationSelect = document.getElementById('duration-select');
 
       saveBtn.addEventListener('click', () => {
-        const text = noteInput.value.trim();
-        if (!text) return;
+        const bodyText = noteInput.value.trim();
+        if (!bodyText) return;
 
         const durationYears = parseInt(durationSelect.value, 10) || 1;
 
         fetch(`/api/note/${capsuleId}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, durationYears })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: bodyText, durationYears })
         })
           .then(res => res.json())
           .then(saved => {
-            const openAtStr    = formatDate(saved.openAt);
+            const openAtStr = formatDate(saved.openAt);
             const writtenAtStr = formatDate(saved.createdAt);
 
             content.innerHTML = `
@@ -75,12 +71,12 @@ fetch(`/api/note/${capsuleId}`)
               </p>
             `;
           })
-          .catch(console.error);
       });
 
-    // 2. Capsule sealed -> show lock message only
+      // ChatGPT helped generating this code
+      // 2. Capsule sealed → show lock message only
     } else if (locked) {
-      const openAtStr    = formatDate(openAt);
+      const openAtStr = formatDate(openAt);
       const writtenAtStr = formatDate(createdAt);
 
       content.innerHTML = `
@@ -91,9 +87,9 @@ fetch(`/api/note/${capsuleId}`)
         </p>
       `;
 
-    // 3. Capsule unlocked -> show the stored note text
+      // 3. Capsule unlocked → show stored note
     } else {
-      const openAtStr    = formatDate(openAt);
+      const openAtStr = formatDate(openAt);
       const writtenAtStr = formatDate(createdAt);
 
       content.innerHTML = `
@@ -108,8 +104,6 @@ fetch(`/api/note/${capsuleId}`)
       `;
     }
   })
-  .catch(err => {
-    console.error(err);
-    content.innerHTML = `<p>Something went wrong loading this capsule.</p>`;
-  });
+
+
 
